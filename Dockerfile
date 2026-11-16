@@ -117,8 +117,6 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 # Packages need for running
 ARG RUNTIME_PACKAGES="\
-  # General utils
-  curl \
   # Docker specific
   gosu \
   # Timezones support
@@ -161,6 +159,8 @@ RUN set -eux \
   echo "Installing system packages" \
     && apt-get update \
     && apt-get install --yes --quiet --no-install-recommends ${RUNTIME_PACKAGES} \
+    && echo "Installing curl, only needed to download pre-built updates" \
+      && apt-get install --yes --quiet --no-install-recommends curl \
     && echo "Installing pre-built updates" \
       && curl --fail --silent --no-progress-meter --show-error --location --remote-name-all \
         https://github.com/paperless-ngx/builder/releases/download/jbig2enc-trixie-v${JBIG2ENC_VERSION}/jbig2enc_${JBIG2ENC_VERSION}-1_${TARGETARCH}.deb \
@@ -168,6 +168,8 @@ RUN set -eux \
         && dpkg --install ./jbig2enc_${JBIG2ENC_VERSION}-1_${TARGETARCH}.deb \
       && echo "Cleaning up image layer" \
         && rm --force --verbose *.deb \
+        && apt-get --yes purge curl \
+        && apt-get --yes autoremove --purge \
     && rm --recursive --force --verbose /var/lib/apt/lists/* \
     && echo "Configuring interactive shells to source the s6 container environment" \
       && echo '. /etc/profile.d/contenv.sh' >> /etc/bash.bashrc
@@ -251,4 +253,5 @@ ENTRYPOINT ["/init"]
 
 EXPOSE 8000
 
-HEALTHCHECK --interval=30s --timeout=10s --retries=5 CMD [ "curl", "-fs", "-S", "-L", "--max-time", "2", "http://localhost:8000" ]
+HEALTHCHECK --interval=30s --timeout=10s --retries=5 \
+  CMD [ "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000', timeout=2)" ]
