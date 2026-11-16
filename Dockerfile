@@ -199,6 +199,8 @@ RUN set -eux \
       --index-strategy unsafe-best-match \
       --requirements requirements.txt \
   && echo "Cleaning up image" \
+    && echo "Removing uv, it is only needed to install the requirements" \
+      && rm --force --verbose /usr/local/bin/uv /usr/local/bin/uvx \
     && apt-get --yes purge ${BUILD_PACKAGES} \
     && apt-get --yes autoremove --purge \
     && apt-get clean --yes \
