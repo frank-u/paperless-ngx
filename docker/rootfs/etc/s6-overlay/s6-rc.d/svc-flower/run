@@ -6,7 +6,10 @@ declare -r flower_config="${PAPERLESS_SRC_DIR}/paperless/flowerconfig.py"
 
 echo "${log_prefix} Checking if we should start flower..."
 
-if [[ -n "${PAPERLESS_ENABLE_FLOWER}" ]]; then
+if [[ -n "${PAPERLESS_ENABLE_FLOWER}" ]] && ! python3 -c "import flower" 2>/dev/null; then
+	echo "${log_prefix} PAPERLESS_ENABLE_FLOWER is set, but this image was built without Flower (INSTALL_FLOWER=false). Not starting flower"
+	s6-svc -Od .
+elif [[ -n "${PAPERLESS_ENABLE_FLOWER}" ]]; then
 	# Small delay to allow celery to be up first
 	echo "${log_prefix} Starting flower in 5s"
 	sleep 5

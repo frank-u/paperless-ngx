@@ -759,6 +759,12 @@ refer to the [Flower](https://flower.readthedocs.io/en/latest/index.html)
 documentation.
 
 Flower can be enabled with the setting [PAPERLESS_ENABLE_FLOWER](configuration.md#PAPERLESS_ENABLE_FLOWER).
+Flower is the optional `flower` extra of the Python project and is included in
+the official image. When building the image yourself, pass
+`--build-arg INSTALL_FLOWER=false` to leave out Flower and its web framework
+(`tornado`); the container then logs a message and does not start it, even if
+`PAPERLESS_ENABLE_FLOWER` is set. For a bare-metal install, use
+`uv sync --extra flower` to include it.
 To configure Flower further, create a `flowerconfig.py` and
 place it into the `src/paperless` directory. For a Docker
 installation, you can use volumes to accomplish this:

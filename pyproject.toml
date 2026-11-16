@@ -43,9 +43,9 @@ dependencies = [
   "drf-spectacular-sidecar>=2026.10.1,<2026.11",
   "drf-writable-nested~=0.7.1",
   "filelock>=3.32,<4.3",
-  "flower>=2.0.1,<2.3",
   "gotenberg-client[httpx]~=1.0",
   "httpx-oauth~=0.17",
+  "humanize>=4.15,<5",
   "ijson>=3.5.1",
   "imap-tools>=1.14,<1.16",
   "jinja2~=3.1.6",
@@ -82,6 +82,9 @@ dependencies = [
   "zxing-cpp~=3.1.0",
 ]
 [project.optional-dependencies]
+flower = [
+  "flower>=2.0.1,<2.3",
+]
 mariadb = [
   "mysqlclient>=2.2.7,<2.4",
 ]

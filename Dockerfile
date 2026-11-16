@@ -100,6 +100,8 @@ ARG TARGETARCH
 
 # Can be workflow provided, defaults set for manual building
 ARG JBIG2ENC_VERSION=0.30
+# Set to false to build without Flower (and its web framework, tornado)
+ARG INSTALL_FLOWER=true
 
 # Set Python environment variables
 ENV PYTHONDONTWRITEBYTECODE=1 \
@@ -192,7 +194,8 @@ RUN set -eux \
     && apt-get update \
     && apt-get install --yes --quiet --no-install-recommends ${BUILD_PACKAGES} \
   && echo "Installing Python requirements" \
-    && uv export --quiet --no-dev --all-extras --format requirements-txt --output-file requirements.txt \
+    && if [ "${INSTALL_FLOWER}" = "true" ]; then EXPORT_ARGS=""; else EXPORT_ARGS="--no-extra flower"; fi \
+    && uv export --quiet --no-dev --all-extras ${EXPORT_ARGS} --format requirements-txt --output-file requirements.txt \
     && uv pip install --no-cache --system --no-python-downloads --python-preference system \
       --index https://pypi.org/simple \
       --index https://download.pytorch.org/whl/cpu \

@@ -3103,9 +3103,9 @@ dependencies = [
     { name = "drf-spectacular-sidecar" },
     { name = "drf-writable-nested" },
     { name = "filelock" },
-    { name = "flower" },
     { name = "gotenberg-client", extra = ["httpx"] },
     { name = "httpx-oauth" },
+    { name = "humanize" },
     { name = "ijson" },
     { name = "imap-tools" },
     { name = "jinja2" },
@@ -3144,6 +3144,9 @@ dependencies = [
 ]
 
 [package.optional-dependencies]
+flower = [
+    { name = "flower" },
+]
 mariadb = [
     { name = "mysqlclient" },
 ]
@@ -3253,10 +3256,11 @@ requires-dist = [
     { name = "drf-spectacular-sidecar", specifier = ">=2026.10.1,<2026.11" },
     { name = "drf-writable-nested", specifier = "~=0.7.1" },
     { name = "filelock", specifier = ">=3.32,<4.3" },
-    { name = "flower", specifier = ">=2.0.1,<2.3" },
+    { name = "flower", marker = "extra == 'flower'", specifier = ">=2.0.1,<2.3" },
     { name = "gotenberg-client", extras = ["httpx"], specifier = "~=1.0" },
     { name = "granian", extras = ["uvloop"], marker = "extra == 'webserver'", specifier = ">=2.7,<2.9" },
     { name = "httpx-oauth", specifier = "~=0.17" },
+    { name = "humanize", specifier = ">=4.15,<5" },
     { name = "ijson", specifier = ">=3.5.1" },
     { name = "imap-tools", specifier = ">=1.14,<1.16" },
     { name = "jinja2", specifier = "~=3.1.6" },
@@ -3300,7 +3304,7 @@ requires-dist = [
     { name = "whoosh-compat", extras = ["tantivy"], specifier = "==0.3" },
     { name = "zxing-cpp", specifier = "~=3.1.0" },
 ]
-provides-extras = ["mariadb", "postgres", "webserver"]
+provides-extras = ["flower", "mariadb", "postgres", "webserver"]
 
 [package.metadata.requires-dev]
 dev = [
