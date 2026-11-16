@@ -119,8 +119,6 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 ARG RUNTIME_PACKAGES="\
   # General utils
   curl \
-  # Docker specific
-  gosu \
   # Timezones support
   tzdata \
   # fonts for text file thumbnail generation
