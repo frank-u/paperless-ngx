@@ -793,8 +793,8 @@ must only be writable by `root`.
 
 Your scripts will be run directly before the webserver completes
 startup. Scripts will be run by the `root` user.
-If you would like to switch users, the utility `gosu` is available and
-preferred over `sudo`.
+If you would like to switch users, the s6-overlay utility `s6-setuidgid`
+(for example `s6-setuidgid paperless <command>`) is available.
 
 This is an advanced functionality with which you could break functionality
 or lose data. If you experience issues, please disable any custom scripts
